@@ -468,31 +468,7 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <p>在Jupyternotebook的首行添加如下代码可实现代码自动补全的功能：</p>
-<pre class="line-numbers language-python3" data-language="python3"><code class="language-python3">%config IPCompleter.greedy &#x3D; True  #TAB键代码自动提示
-def duplicateInArray(nums):
-        &quot;&quot;&quot;
-        :type nums: List[int]
-        :rtype int
-        &quot;&quot;&quot;
-        n &#x3D; len(nums)
-        if n&#x3D;&#x3D;0 or n&#x3D;&#x3D;1:
-            return -1
-        map &#x3D; &#123;&#125;
-        result &#x3D; []
-        for i in range(n):
-            if nums[i]&lt;0 or nums[i]&gt;n-1:
-                return -1
-            elif nums[i] in map.keys():
-                result.append(nums[i])
-                map[nums[i]] +&#x3D; 1
-            else:
-                map[nums[i]] &#x3D; 1
-        if all(x&#x3D;&#x3D;1 for x in map.values()):
-            return -1
-        return result[0]
-nums &#x3D; []
-print(duplicateInArray(nums))
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-python3" data-language="python3"><code class="language-python3">%config IPCompleter.greedy &#x3D; True  #TAB键代码自动提示<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>后续代码按TAB键可出现代码自动提示</p>
 
                 

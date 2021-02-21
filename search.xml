@@ -11,6 +11,18 @@
         <content type="html"><![CDATA[<p>在Jupyternotebook的首行添加如下代码可实现代码自动补全的功能：</p><pre class="line-numbers language-python3" data-language="python3"><code class="language-python3">%config IPCompleter.greedy = True  #TAB键代码自动提示<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>后续代码按TAB键可出现代码自动提示</p>]]></content>
       
       
+      <categories>
+          
+          <category> Tensorflow笔记 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> tensorflow </tag>
+            
+        </tags>
       
     </entry>
     

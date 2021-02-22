@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Jupyternotebook代码补全提示, Hexo">
+    <meta name="keywords" content="用MATLAB调用百度翻译API, Hexo">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>Jupyternotebook代码补全提示 | Hexo</title>
+    <title>用MATLAB调用百度翻译API | Hexo</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -312,12 +312,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/11.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/6.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Jupyternotebook代码补全提示</h1>
+                    <h1 class="description center-align post-title">用MATLAB调用百度翻译API</h1>
                 </div>
             </div>
         </div>
@@ -433,8 +433,12 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/tensorflow/">
-                                <span class="chip bg-color">tensorflow</span>
+                            <a href="/tags/MATLAB/">
+                                <span class="chip bg-color">MATLAB</span>
+                            </a>
+                        
+                            <a href="/tags/Python/">
+                                <span class="chip bg-color">Python</span>
                             </a>
                         
                     </div>
@@ -445,8 +449,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/Tensorflow%E7%AC%94%E8%AE%B0/" class="post-category">
-                                Tensorflow笔记
+                            <a href="/categories/MATLAB/" class="post-category">
+                                MATLAB
                             </a>
                         
                     </div>
@@ -458,7 +462,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2021-02-21
+                    2021-02-22
                 </div>
                 
 
@@ -467,7 +471,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    51
+                    406
                 </div>
                 
 
@@ -492,10 +496,87 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>在Jupyternotebook的首行添加如下代码可实现代码自动补全的功能：</p>
-<pre class="line-numbers language-python3" data-language="python3"><code class="language-python3">%config IPCompleter.greedy = True  #TAB键代码自动提示<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>后续代码按TAB键可出现代码自动提示</p>
+                <h3 id="在MATLAB中通过python调用百度翻译API"><a href="#在MATLAB中通过python调用百度翻译API" class="headerlink" title="在MATLAB中通过python调用百度翻译API"></a>在MATLAB中通过python调用百度翻译API</h3><p>在MATLAB中调用.py文件中的BaiduTranslate类实现百度翻译的功能。.py文件的代码如下：</p>
+<pre class="line-numbers language-python3" data-language="python3"><code class="language-python3">import hashlib
+import http.client
+import json
+import random
+import sys
+from urllib import parse
 
+class BaiduTranslate:
+    def __init__(self, fromLang, toLang):
+        self.url = "/api/trans/vip/translate"
+        self.appid = ""  # 申请的账号复制到这里
+        self.secretKey = ''  # 申请账号的密码复制到这里
+        self.fromLang = fromLang
+        self.toLang = toLang
+        self.salt = random.randint(32768, 65536)
+
+    def BdTrans(self, text):
+        sign = self.appid + text + str(self.salt) + self.secretKey
+        md = hashlib.md5()
+        md.update(sign.encode(encoding='utf-8'))
+        sign = md.hexdigest()
+        myurl = self.url + \
+                '?appid=' + self.appid + \
+                '&amp;q=' + parse.quote(text) + \
+                '&amp;from=' + self.fromLang + \
+                '&amp;to=' + self.toLang + \
+                '&amp;salt=' + str(self.salt) + \
+                '&amp;sign=' + sign
+        try:
+            httpClient = http.client.HTTPConnection('api.fanyi.baidu.com')
+            httpClient.request('GET', myurl)
+            response = httpClient.getresponse()
+            html = response.read().decode('utf-8')
+            html = json.loads(html)
+            dst = html["trans_result"][0]["dst"]
+            return True, dst
+        except Exception as e:
+            return False, e
+
+if __name__ == '__main__':
+    a=BaiduTranslate('zh','en')
+    #b=sys.argv[1]
+    b=' '.join(sys.argv[1:])
+    print(a.BdTrans(b))<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>MATLAB脚本文件代码如下：</p>
+<pre class="line-numbers language-matlab" data-language="matlab"><code class="language-matlab">wenzi <span class="token operator">=</span> "床前明月光"
+command <span class="token operator">=</span> <span class="token function">sprintf</span><span class="token punctuation">(</span>"python C<span class="token operator">:</span><span class="token operator">\</span><span class="token operator">\</span>Users<span class="token operator">\</span><span class="token operator">\</span>HP<span class="token operator">\</span><span class="token operator">\</span>Downloads<span class="token operator">\</span><span class="token operator">\</span>Baidu_translation<span class="token punctuation">.</span>py <span class="token comment">%s", wenzi)</span>
+<span class="token punctuation">[</span><span class="token operator">~</span><span class="token punctuation">,</span>cmdout<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">system</span><span class="token punctuation">(</span>command<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>命令行输出结果如下：</p>
+<pre class="line-numbers language-matlab" data-language="matlab"><code class="language-matlab">wenzi <span class="token operator">=</span> "床前明月光"
+command <span class="token operator">=</span> <span class="token function">sprintf</span><span class="token punctuation">(</span>"python C<span class="token operator">:</span><span class="token operator">\</span><span class="token operator">\</span>Users<span class="token operator">\</span><span class="token operator">\</span>HP<span class="token operator">\</span><span class="token operator">\</span>Downloads<span class="token operator">\</span><span class="token operator">\</span>Baidu_translation<span class="token punctuation">.</span>py <span class="token comment">%s", wenzi)</span>
+<span class="token punctuation">[</span><span class="token operator">~</span><span class="token punctuation">,</span>cmdout<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">system</span><span class="token punctuation">(</span>command<span class="token punctuation">)</span>
+
+wenzi <span class="token operator">=</span> 
+
+    "床前明月光"
+
+
+command <span class="token operator">=</span> 
+
+    "python C<span class="token operator">:</span><span class="token operator">\</span>Users<span class="token operator">\</span>HP<span class="token operator">\</span>Downloads<span class="token operator">\</span>Baidu_translation<span class="token punctuation">.</span>py 床前明月光"
+
+
+cmdout <span class="token operator">=</span>
+
+    <span class="token string">'(True, '</span>abed<span class="token punctuation">,</span> I see a silver light<span class="token operator">'</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>使用disp函数简化命令行输出：</p>
+<pre class="line-numbers language-matlab" data-language="matlab"><code class="language-matlab">clc
+wenzi <span class="token operator">=</span> "床前明月光"<span class="token punctuation">;</span>
+command <span class="token operator">=</span> <span class="token function">sprintf</span><span class="token punctuation">(</span>"python C<span class="token operator">:</span><span class="token operator">\</span><span class="token operator">\</span>Users<span class="token operator">\</span><span class="token operator">\</span>HP<span class="token operator">\</span><span class="token operator">\</span>Downloads<span class="token operator">\</span><span class="token operator">\</span>Baidu_translation<span class="token punctuation">.</span>py <span class="token comment">%s", wenzi);</span>
+<span class="token punctuation">[</span><span class="token operator">~</span><span class="token punctuation">,</span>cmdout<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">system</span><span class="token punctuation">(</span>command<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">disp</span><span class="token punctuation">(</span><span class="token function">cmdout</span><span class="token punctuation">(</span><span class="token number">9</span><span class="token operator">:</span><span class="token keyword">end</span><span class="token operator">-</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>命令行输出结果如下：</p>
+<pre class="line-numbers language-matlab" data-language="matlab"><code class="language-matlab">abed<span class="token punctuation">,</span> I see a silver light<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="功能强化"><a href="#功能强化" class="headerlink" title="功能强化"></a>功能强化</h3><p>tips:使用clipboard函数可以实现自动读取剪贴板内容进行翻译</p>
+<pre class="line-numbers language-matlab" data-language="matlab"><code class="language-matlab">clc
+wenzi <span class="token operator">=</span> <span class="token function">clipboard</span><span class="token punctuation">(</span>"paste"<span class="token punctuation">)</span><span class="token punctuation">;</span>
+command <span class="token operator">=</span> <span class="token function">sprintf</span><span class="token punctuation">(</span>"python C<span class="token operator">:</span><span class="token operator">\</span><span class="token operator">\</span>Users<span class="token operator">\</span><span class="token operator">\</span>HP<span class="token operator">\</span><span class="token operator">\</span>Downloads<span class="token operator">\</span><span class="token operator">\</span>Baidu_translation<span class="token punctuation">.</span>py <span class="token comment">%s", wenzi);</span>
+<span class="token punctuation">[</span><span class="token operator">~</span><span class="token punctuation">,</span>cmdout<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">system</span><span class="token punctuation">(</span>command<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">disp</span><span class="token punctuation">(</span><span class="token function">cmdout</span><span class="token punctuation">(</span><span class="token number">9</span><span class="token operator">:</span><span class="token keyword">end</span><span class="token operator">-</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
                 
             </div>
             <hr/>
@@ -521,7 +602,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://zavodovski.github.io/2021/02/21/jupyternotebook-dai-ma-bu-quan/">https://zavodovski.github.io/2021/02/21/jupyternotebook-dai-ma-bu-quan/</a>
+                    <a href="https://zavodovski.github.io/2021/02/22/yong-matlab-shi-xian-bai-du-fan-yi/">https://zavodovski.github.io/2021/02/22/yong-matlab-shi-xian-bai-du-fan-yi/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -559,8 +640,12 @@
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/tensorflow/">
-                                    <span class="chip bg-color">tensorflow</span>
+                                <a href="/tags/MATLAB/">
+                                    <span class="chip bg-color">MATLAB</span>
+                                </a>
+                            
+                                <a href="/tags/Python/">
+                                    <span class="chip bg-color">Python</span>
                                 </a>
                             
                         </div>
@@ -606,9 +691,64 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
+            <div class="card">
+                <a href="/2021/02/22/yong-matlab-shi-xian-bai-du-fan-yi/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="用MATLAB调用百度翻译API">
+                        
+                        <span class="card-title">用MATLAB调用百度翻译API</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-02-22
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/MATLAB/" class="post-category">
+                                    MATLAB
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/MATLAB/">
+                        <span class="chip bg-color">MATLAB</span>
+                    </a>
+                    
+                    <a href="/tags/Python/">
+                        <span class="chip bg-color">Python</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
             <div class="card">
                 <a href="/2021/02/22/mablab-yu-python-jiao-hu/">
                     <div class="card-image">
@@ -626,9 +766,9 @@
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2021-02-22
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-02-22
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -652,43 +792,6 @@
                         <span class="chip bg-color">Python</span>
                     </a>
                     
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
-            </div>
-            <div class="card">
-                <a href="/2021/01/18/hello-world/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="Hello World">
-                        
-                        <span class="card-title">Hello World</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            
-                        
-                    </div>
-                    <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-01-18
-                            </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-user fa-fw"></i>
-                            Zavodovski
-                            
-                        </span>
-                    </div>
                 </div>
                 
             </div>

@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>Tensorflow笔记-踩坑(一）</title>
+      <link href="2021/02/25/tensorflow-bi-ji-cai-keng-yi/"/>
+      <url>2021/02/25/tensorflow-bi-ji-cai-keng-yi/</url>
+      
+        <content type="html"><![CDATA[<p>在训练神经网络模型时model.fit的时候报错：Function call stack:distributed_function<br>此时需要设置GPU显存按需申请，可以在程序前添加如下代码解决：</p><pre class="line-numbers language-python3" data-language="python3"><code class="language-python3">physical_devices = tf.config.experimental.list_physical_devices('GPU')assert len(physical_devices) &gt; 0, "Not enough GPU hardware devices available"tf.config.experimental.set_memory_growth(physical_devices[0], True)tf.config.experimental.set_memory_growth(physical_devices[1], True)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre><p>其中</p><pre class="line-numbers language-python3" data-language="python3"><code class="language-python3">tf.config.experimental.set_memory_growth(physical_devices[i], True)<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>根据需根据设备的GPU数量而定，i取决于GPU的数量，有多少GPU就调用几次上述语句<br>如只有一个GPU，则可以按如下方式改写：</p><pre class="line-numbers language-python3" data-language="python3"><code class="language-python3">gpu = tf.config.experimental.list_physical_devices(device_type='GPU')assert len(gpu) == 1tf.config.experimental.set_memory_growth(gpu[0], True)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> Tensorflow笔记 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> tensorflow </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>用MATLAB调用百度翻译API</title>
       <link href="2021/02/22/yong-matlab-shi-xian-bai-du-fan-yi/"/>
       <url>2021/02/22/yong-matlab-shi-xian-bai-du-fan-yi/</url>

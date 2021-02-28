@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>Tensorflow笔记-自动终止训练</title>
+      <link href="2021/02/28/tensorflow-bi-ji-zi-dong-zhong-zhi-xun-lian/"/>
+      <url>2021/02/28/tensorflow-bi-ji-zi-dong-zhong-zhi-xun-lian/</url>
+      
+        <content type="html"><![CDATA[<p>在Tensorflow中，可以通过callbacks方法自动终止神经网络模型的训练。</p><p>具体做法如下：先定义一个类，这个类从tf.keras.callbacks.Callback这个类里继承。<br>关于tf.keras.callbacks.Callback这个类的一些方法，可以查看tensorflow的官方文档：<a href="https://tensorflow.google.cn/versions/r2.1/api_docs/python/tf/keras/callbacks/Callback">More info</a></p><p>在我们自定义的类里面可以替换tf.keras.callbacks.Callback的一些方法。</p><p>下面以minst数据集的图片分类训练过程进行示例：</p><pre class="line-numbers language-python3" data-language="python3"><code class="language-python3">from tensorflow import kerasimport tensorflow as tfclass myCallback(tf.keras.callbacks.Callback):   #类的继承    def on_epoch_end(self,epoch,logs={}):        if(logs.get('loss')&lt;0.4):                #loss小于0.4则终止训练            print("\nLoss is low so cancelling training!")            self.model.stop_training = Truecallbacks = myCallback()      #生成一个类的实例fashion_mnist=keras.datasets.fashion_mnist(train_images,train_labels),(test_images,test_labels)=fashion_mnist.load_data()train_images_scaled = train_images/255.0test_images_scaled = test_images/255.0model = keras.Sequential()model.add(keras.layers.Flatten(input_shape=(28,28)))model.add(keras.layers.Dense(512,activation=tf.nn.relu))model.add(keras.layers.Dense(10,activation=tf.nn.softmax))model.compile(optimizer=tf.optimizers.Adam(),loss=tf.losses.sparse_categorical_crossentropy,metrics=['accuracy'])model.fit(train_images_scaled,train_labels,epochs=5,callbacks=[callbacks])  #参数传递<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><p>实际运行效果如下：</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Tensorflow笔记 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> tensorflow </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Tensorflow笔记-踩坑(一）</title>
       <link href="2021/02/25/tensorflow-bi-ji-cai-keng-yi/"/>
       <url>2021/02/25/tensorflow-bi-ji-cai-keng-yi/</url>

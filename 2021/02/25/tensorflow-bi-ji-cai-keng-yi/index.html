@@ -467,7 +467,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    241
+                    239
                 </div>
                 
 
@@ -492,8 +492,7 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>###(一)Function call stack:distributed_function</p>
-<p>在训练神经网络模型时model.fit的时候报错：Function call stack:distributed_function<br>此时需要设置GPU显存按需申请，可以在程序前添加如下代码解决：</p>
+                <h3 id="一-Function-call-stack-distributed-function"><a href="#一-Function-call-stack-distributed-function" class="headerlink" title="(一)Function call stack:distributed_function"></a>(一)Function call stack:distributed_function</h3><p>在训练神经网络模型时model.fit的时候报错：Function call stack:distributed_function<br>此时需要设置GPU显存按需申请，可以在程序前添加如下代码解决：</p>
 <pre class="line-numbers language-python3" data-language="python3"><code class="language-python3">physical_devices = tf.config.experimental.list_physical_devices('GPU')
 assert len(physical_devices) &gt; 0, "Not enough GPU hardware devices available"
 tf.config.experimental.set_memory_growth(physical_devices[0], True)
@@ -504,10 +503,9 @@ tf.config.experimental.set_memory_growth(physical_devices[1], True)<span aria-hi
 <pre class="line-numbers language-python3" data-language="python3"><code class="language-python3">gpu = tf.config.experimental.list_physical_devices(device_type='GPU')
 assert len(gpu) == 1
 tf.config.experimental.set_memory_growth(gpu[0], True)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-<p>###(二)IProgress not found. Please update jupyter and ipywidgets</p>
-<p>在jupyter notebook中运行代码时提示导入模块的报错信息：IProgress not found. Please update jupyter and ipywidgets.<br>ImportError: IProgress not found. Please update jupyter and ipywidgets. See <a target="_blank" rel="noopener" href="https://ipywidgets.readthedocs.io/en/stable/user_install.html">https://ipywidgets.readthedocs.io/en/stable/user_install.html</a><br>在Anaconda Prompt中运行如下代码并重启jupyter notebook即可解决。</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">conda <span class="token function">install</span> -c conda-forge ipywidgets
-jupyter nbextension <span class="token builtin class-name">enable</span> --py widgetsnbextension<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h3 id="二-IProgress-not-found-Please-update-jupyter-and-ipywidgets"><a href="#二-IProgress-not-found-Please-update-jupyter-and-ipywidgets" class="headerlink" title="(二)IProgress not found. Please update jupyter and ipywidgets"></a>(二)IProgress not found. Please update jupyter and ipywidgets</h3><p>在jupyter notebook中运行代码时提示导入模块的报错信息：IProgress not found. Please update jupyter and ipywidgets.<br>ImportError: IProgress not found. Please update jupyter and ipywidgets. See <a target="_blank" rel="noopener" href="https://ipywidgets.readthedocs.io/en/stable/user_install.html">https://ipywidgets.readthedocs.io/en/stable/user_install.html</a><br>在Anaconda Prompt中运行如下代码并重启jupyter notebook即可解决。</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">conda install -c conda-forge ipywidgets
+jupyter nbextension enable --py widgetsnbextension<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 
 
                 
